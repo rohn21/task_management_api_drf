@@ -1,0 +1,313 @@
+{
+	"info": {
+		"_postman_id": "273cf1d1-5ba3-4baa-98b0-c2cd75da6fb1",
+		"name": "Task_Management_API",
+		"description": "This project built using Python, Django REST Framework.\n\nTask management project includes User Registration and Authentication, and Managing task such as CRUD operation bu ensuring proper security and restricted access.\n\nFeatures:\n\n1. User Registration and Authentication with JWT.\n    \n2. Task Management\n    \n3. Filtering and Sorting of task.\n    \n4. Pagination\n    \n5. Permissions",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "30531370"
+	},
+	"item": [
+		{
+			"name": "account",
+			"item": [
+				{
+					"name": "user_create",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"user@mail.com\",\r\n    \"first_name\": \"Alex\",\r\n    \"last_name\": \"Parkes\",\r\n    \"phone_number\": 123456879,\r\n    \"address\": \"102, lt. road, NYC\",\r\n    \"password\": \"ApiUSR123\",\r\n    \"confirm_password\": \"ApiUSR123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://127.0.0.1:8000/api/auth/register/",
+						"description": "Some fields are required for example first_name and last_name.\n\nIt will return response code 201.\n\nand return response with user detail without password."
+					},
+					"response": []
+				},
+				{
+					"name": "login",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"user@mail.com\",\r\n    \"password\": \"ApiUSR123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://127.0.0.1:8000/api/auth/login/",
+						"description": "With AbstractBaseUser user credentials will be 'email' and 'password'.\n\nResponse code : 200\n\nIt will return refresh_token and access_token."
+					},
+					"response": []
+				}
+			],
+			"description": "This account app handles the authentication part for Task Management which includes Custom User creation, User registration and Login with AbstractBaseUser alongwith JWT using django_rest_framewrok's simpleJWT."
+		},
+		{
+			"name": "manage_task",
+			"item": [
+				{
+					"name": "task_create",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzI5NjgwNjAxLCJpYXQiOjE3Mjk2NzcwMDEsImp0aSI6Ijg3NWUzM2QzMjVlZTQ3NDNhMWViNzk0YzU2MTg2NmMyIiwidXNlcl9pZCI6Mn0.240YFi3PIEbOymoyORar1Dpk1VHv1-Nb2KDOa-ehNxo"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://127.0.0.1:8000/api/tasks/",
+						"description": "Response code: 200 OK\n\nIt will returns the tasks' detail assigned to specific user."
+					},
+					"response": []
+				},
+				{
+					"name": "task_create_post",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzI5NjgxMTA1LCJpYXQiOjE3Mjk2Nzc1MDUsImp0aSI6ImExMTBlOGJlNWQ2MDQ2MWJhNDI1MGE3ZmUzOTA4MWQwIiwidXNlcl9pZCI6M30.UcxY7pTkNKgVm_4rAUhbQRIFb-HCmhFAnTa8FXVLDv8"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"Cinema\",\r\n    \"description\": \"test permission\",\r\n    \"status\": \"pending\",\r\n    \"priority\": \"medium\",\r\n    \"due_date\": \"2024-11-01\",\r\n    \"assigned_to\": 3\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://127.0.0.1:8000/api/tasks/",
+						"description": "It will create task with fields like 'title', 'description'. 'due_date', 'status', 'priority', 'assigned_to'(optional).\n\nResonse code : 201 created"
+					},
+					"response": []
+				},
+				{
+					"name": "task_create_detail",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzI5Njg0NzY0LCJpYXQiOjE3Mjk2ODExNjQsImp0aSI6IjZkYTBjMjFkMTlhMjQ1NzNhNTA4NzdiNDkzNjc1ZmJmIiwidXNlcl9pZCI6M30.LvgUASeU1-bSdFjtR594KC2yymAuh1b9gyWiQKfZiEc"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://127.0.0.1:8000/api/tasks/7/",
+						"description": "Resonse code : 200 OK\n\nTo retireve specific task associated with that user with its details."
+					},
+					"response": []
+				},
+				{
+					"name": "task_filter",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzI5NjgxMTA1LCJpYXQiOjE3Mjk2Nzc1MDUsImp0aSI6ImExMTBlOGJlNWQ2MDQ2MWJhNDI1MGE3ZmUzOTA4MWQwIiwidXNlcl9pZCI6M30.UcxY7pTkNKgVm_4rAUhbQRIFb-HCmhFAnTa8FXVLDv8"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/tasks?status=pending&priority=medium",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"tasks"
+							],
+							"query": [
+								{
+									"key": "status",
+									"value": "pending"
+								},
+								{
+									"key": "priority",
+									"value": "medium"
+								}
+							]
+						},
+						"description": "Response code: 200 OK\n\nIt filter out data with provided parameters"
+					},
+					"response": []
+				},
+				{
+					"name": "task_sorting",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzI5NjgxMTA1LCJpYXQiOjE3Mjk2Nzc1MDUsImp0aSI6ImExMTBlOGJlNWQ2MDQ2MWJhNDI1MGE3ZmUzOTA4MWQwIiwidXNlcl9pZCI6M30.UcxY7pTkNKgVm_4rAUhbQRIFb-HCmhFAnTa8FXVLDv8"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/tasks?ordering=priority",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"tasks"
+							],
+							"query": [
+								{
+									"key": "ordering",
+									"value": "priority"
+								}
+							]
+						},
+						"description": "Response code : 200 OK\n\nIt returns task with ordering by high to low priority."
+					},
+					"response": []
+				},
+				{
+					"name": "task_search",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzI5NjgxMTA1LCJpYXQiOjE3Mjk2Nzc1MDUsImp0aSI6ImExMTBlOGJlNWQ2MDQ2MWJhNDI1MGE3ZmUzOTA4MWQwIiwidXNlcl9pZCI6M30.UcxY7pTkNKgVm_4rAUhbQRIFb-HCmhFAnTa8FXVLDv8"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/tasks?search=Shopping",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"tasks"
+							],
+							"query": [
+								{
+									"key": "search",
+									"value": "Shopping"
+								}
+							]
+						},
+						"description": "Response code: 200 OK\n\nIt returns task whose title matches with given parameter."
+					},
+					"response": []
+				},
+				{
+					"name": "task_detail_update",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzI5NjgwNjAxLCJpYXQiOjE3Mjk2NzcwMDEsImp0aSI6Ijg3NWUzM2QzMjVlZTQ3NDNhMWViNzk0YzU2MTg2NmMyIiwidXNlcl9pZCI6Mn0.240YFi3PIEbOymoyORar1Dpk1VHv1-Nb2KDOa-ehNxo"
+							}
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"Learning of Javascript.\",\r\n    \"description\": \"Learn and understand the concepts of Javascript with its frameworks.\",\r\n    \"status\": \"in_progress\",\r\n    \"priority\": \"low\",\r\n    \"due_date\": \"2024-11-03\",\r\n    \"assigned_to\": 3\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://127.0.0.1:8000/api/tasks/4/",
+						"description": "Response code: 200 OK\n\nIt will updates several columns of Task."
+					},
+					"response": []
+				},
+				{
+					"name": "delete_task",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzI5NjgxMTA1LCJpYXQiOjE3Mjk2Nzc1MDUsImp0aSI6ImExMTBlOGJlNWQ2MDQ2MWJhNDI1MGE3ZmUzOTA4MWQwIiwidXNlcl9pZCI6M30.UcxY7pTkNKgVm_4rAUhbQRIFb-HCmhFAnTa8FXVLDv8"
+							}
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": "http://127.0.0.1:8000/api/tasks/8/",
+						"description": "Response Code: 204 No Content\n\nIt will delete the task with task_id."
+					},
+					"response": []
+				}
+			],
+			"description": "This manage_task app handles the requests related to Task management along with JWT Authentication, Permissions, Pagianation and other functionalities such as filtering,sorting, etc."
+		}
+	]
+}
